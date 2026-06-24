@@ -2,7 +2,15 @@ import streamlit as st
 import pandas as pd
 import asyncio
 import plotly.express as px
+import subprocess
 from playwright.async_api import async_playwright
+
+# 🌟 AUTOMATYCZNY INSTALATOR PRZEGLĄDARKI DLA CHMURY STREAMLIT 🌟
+# Serwer w chmurze pobierze niezbędne pliki Chromium przy starcie aplikacji
+try:
+    subprocess.run(["python", "-m", "playwright", "install", "chromium"], check=True)
+except Exception as e:
+    pass
 
 # Ustawienia wyglądu strony (m.in. responsywność pod telefony)
 st.set_page_config(page_title="Monitor Cen OLX", layout="wide")
@@ -96,7 +104,7 @@ if st.button("🚀 SPRAWDŹ I ANALIZUJ", type="primary"):
             df = df.drop_duplicates(subset=["Link"])
 
             # --- STATYSTYKI KPI ---
-            st.success(f"Analiza zakończona sukcesem! Znaleziono {len(df)} pasujących ogłoszeń.")
+            st.success(f"Analityka zakończona sukcesem! Znaleziono {len(df)} pasujących ogłoszeń.")
             
             s1, s2, s3 = st.columns(3)
             s1.metric("Średnia Cena rynkowa", f"{round(df['Cena (PLN)'].mean())} PLN")
